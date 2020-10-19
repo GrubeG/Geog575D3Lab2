@@ -1,0 +1,1 @@
+function jQueryAjax(){return $.ajax("data/MegaCities.geojson",{dataType:"json"})}var mydata=jQueryAjax();console.log(mydata);
