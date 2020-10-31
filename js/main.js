@@ -10,10 +10,17 @@ function setMap(){
         .defer(d3.json, "data/RegionalCountries.topojson") //load choropleth spatial data
         .await(callback);
     
-    function callback(error, csvData, europe, france){
+    function callback(error, csvData, europe, region){
+        //translate europe TopoJSON
+        //var europeCountries = topojson.feature(europe, europe.objects.EUCountries),
+            //regionalCountries = topojson.feature(region, region.objects.RegionalCountries).features;
+
+        //examine the results
         console.log(error);
         console.log(csvData);
         console.log(europe);
-        console.log(france);
+        console.log(region);
+        //console.log(europeCountries);
+        //console.log(regionalCountries);
     };
-};
+}
