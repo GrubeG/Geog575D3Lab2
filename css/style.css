@@ -2,13 +2,13 @@
 .regional {
     fill: #d9d9d9;
     stroke: #CCC;
-    stroke-width: 2px;
+    stroke-width: 1px;
 }
 
 .EuropeanUnionCountries {
-    fill: #e5f5e0;
-    stroke: #CCC;
-    stroke-width: 2px;
+    stroke: #000;
+    stroke-width: 0.5px;
+    stroke-linecap: round;
 }
 
 .gratLines {
