@@ -2,8 +2,23 @@
 (function(){
 
 //pseudo-global variables
-var attrArray = ["GHG", "Waste", "TotalEner", "NonRenewEner", "WaterAbsAvg"];
+var attrArray = ["GHG", "Waste", "TotalEner", "NonRenewEner", "WaterAbsAvg", "AirQuality"];
 var expressed = attrArray[0]; //initial attribute
+    
+//chart frame dimensions
+var chartWidth = window.innerWidth * 0.425,
+    chartHeight = 473,
+    leftPadding = 25,
+    rightPadding = 2,
+    topBottomPadding = 5,
+    chartInnerWidth = chartWidth - leftPadding - rightPadding,
+    chartInnerHeight = chartHeight - topBottomPadding * 2,
+    translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
+    
+//create a scale to size bars proportionally to frame and for axis
+var yScale = d3.scaleLinear()
+    .range([463, 0])
+    .domain([0, 110]);
     
 //begin script when window loads
 window.onload = setMap();
@@ -119,19 +134,7 @@ function setChart(csvData, colorScale){
             return "bars " + d.Code;
         })
         .attr("width", chartInnerWidth / csvData.length - 1)
-        .attr("x", function(d, i){
-            return i * (chartInnerWidth / csvData.length) + leftPadding;
-        })
-        .attr("height", function(d, i){
-            return 463 - yScale(parseFloat(d[expressed]));
-        })
-        .attr("y", function(d, i){
-            return yScale(parseFloat(d[expressed])) + topBottomPadding;
-        })
-        //Example 2.5 line 23...end of bars block
-        .style("fill", function(d){
-            return choropleth(d, colorScale);
-        });
+        
     
         //annotate bars with attribute value text
     var numbers = chart.selectAll(".numbers")
@@ -163,8 +166,7 @@ function setChart(csvData, colorScale){
     var chartTitle = chart.append("text")
         .attr("x", 40)
         .attr("y", 40)
-        .attr("class", "chartTitle")
-        .text("Number of " + expressed + " per capita in each country");
+        .attr("class", "chartTitle");
     
     //create vertical axis generator
     var yAxis = d3.axisLeft(yScale);
@@ -182,6 +184,31 @@ function setChart(csvData, colorScale){
         .attr("height", chartInnerHeight)
         .attr("transform", translate);
     
+    //set bar positions, heights, and colors
+    updateChart(bars, csvData.length, colorScale);
+    
+}; //end of setChart()
+    
+//function to position, size, and color bars in chart
+function updateChart(bars, n, colorScale){
+    //position bars
+    bars.attr("x", function(d, i){
+            return i * (chartInnerWidth / n) + leftPadding;
+        })
+        //size/resize bars
+        .attr("height", function(d, i){
+            return 463 - yScale(parseFloat(d[expressed]));
+        })
+        .attr("y", function(d, i){
+            return yScale(parseFloat(d[expressed])) + topBottomPadding;
+        })
+        //color/recolor bars
+        .style("fill", function(d){
+            return choropleth(d, colorScale);
+        });
+        //at the bottom of updateChart()...add text to chart title
+        var chartTitle = d3.select(".chartTitle")
+            .text("Number of Variable " + expressed + " in each region");
 };
     
 //function to create a dropdown menu for attribute selection
@@ -228,21 +255,9 @@ function changeAttribute(attribute, csvData){
         //re-sort bars
         .sort(function(a, b){
             return b[expressed] - a[expressed];
-        })
-        .attr("x", function(d, i){
-            return i * (chartInnerWidth / csvData.length) + leftPadding;
-        })
-        //resize bars
-        .attr("height", function(d, i){
-            return 463 - yScale(parseFloat(d[expressed]));
-        })
-        .attr("y", function(d, i){
-            return yScale(parseFloat(d[expressed])) + topBottomPadding;
-        })
-        //recolor bars
-        .style("fill", function(d){
-            return choropleth(d, colorScale);
         });
+    
+    updateChart(bars, csvData.length, colorScale);
 };
     
 //function to create color scale generator
@@ -260,10 +275,6 @@ function makeColorScale(data){
     var colorScale = d3.scaleQuantile()
         .range(colorClasses);
 
-    //create color scale generator
-    var colorScale = d3.scaleQuantile()
-        .range(colorClasses);
-
     //build two-value array of minimum and maximum expressed attribute values
     var minmax = [
         d3.min(data, function(d) { return parseFloat(d[expressed]); }),
@@ -272,7 +283,7 @@ function makeColorScale(data){
     
     //assign two-value array as scale domain
     colorScale.domain(minmax)
-
+    
     return colorScale;
 };
     
@@ -299,7 +310,7 @@ function setGraticule(map, path){
 function joinData(europeCountries, csvData){
     
     //variables for data join
-    var attrArray = ["GHG", "Waste", "TotalEner", "NonRenewEner", "WaterAbsAvg"];
+    var attrArray = ["GHG", "Waste", "TotalEner", "NonRenewEner", "WaterAbsAvg", "AirQuality"];
 
     //loop through csv to assign each set of csv attribute values to geojson region
     for (var i=0; i<csvData.length; i++){
@@ -319,6 +330,7 @@ function joinData(europeCountries, csvData){
                 attrArray.forEach(function(attr){
                     var val = parseFloat(csvRegion[attr]); //get csv attribute value
                     geojsonProps[attr] = val; //assign attribute and value to geojson properties
+                    
                 });
             };
         };
