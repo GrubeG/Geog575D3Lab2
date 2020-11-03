@@ -64,6 +64,9 @@ function setMap(){
         var regionalCountries = topojson.feature(region, region.objects.RegionalCountries),
             europeCountries = topojson.feature(europe, europe.objects.EUCountries).features;
         
+        console.log(regionalCountries);
+        console.log(europeCountries);
+        
         //add regional countries to map
         var regional = map.append("path")
             .datum(regionalCountries)
@@ -282,9 +285,10 @@ function makeColorScale(data){
     ];
     
     //assign two-value array as scale domain
-    colorScale.domain(minmax)
-    
+    colorScale.domain(minmax);
+
     return colorScale;
+    
 };
     
 function setGraticule(map, path){
