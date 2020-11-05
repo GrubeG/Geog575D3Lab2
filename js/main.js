@@ -230,6 +230,8 @@ function changeAttribute(attribute, csvData){
 
     //recolor enumeration units
     var EuropeanUnionCountries = d3.selectAll(".EuropeanUnionCountries")
+        .transition()
+        .duration(1000)
         .style("fill", function(d){
             return choropleth(d.properties, colorScale)
         });
@@ -239,7 +241,12 @@ function changeAttribute(attribute, csvData){
         //re-sort bars
         .sort(function(a, b){
             return b[expressed] - a[expressed];
-        });
+        })
+        .transition() //add animation
+        .delay(function(d, i){
+            return i * 20
+        })
+        .duration(500);
         
     updateChart(bars, csvData.length, colorScale);
     
