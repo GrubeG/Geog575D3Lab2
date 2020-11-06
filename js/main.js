@@ -137,7 +137,10 @@ function setChart(csvData, colorScale){
         .attr("class", function(d){
             return "bar " + d.Code;
         })
-        .attr("width", chartInnerWidth / csvData.length - 1);
+        .attr("width", chartInnerWidth / csvData.length - 1)
+        .on("mouseover", highlight);
+    var desc = bars.append("desc")
+        .text('{"stroke": "none", "stroke-width": "0px"}');
     
         //annotate bars with attribute value text
     var numbers = chart.selectAll(".numbers")
@@ -369,7 +372,14 @@ function setEnumerationUnits(europeCountries, map, path, colorScale){
             .attr("d", path)
             .style("fill", function(d){
                 return choropleth(d.properties, colorScale);
+            })
+            .on("mouseover", function(d){
+                highlight(d.properties);
             });
+        var desc = EuropeanUnionCountries.append("desc")
+        .text('{"stroke": "#000", "stroke-width": "0.5px"}');
+        
+        
 };
 
 //function to test for data value and return color
@@ -382,6 +392,14 @@ function choropleth(props, colorScale){
     } else {
         return "#CCC";
     };
+};
+    
+//function to highlight enumeration units and bars
+function highlight(props){
+    //change stroke
+    var selected = d3.selectAll("." + props.GeogCode)
+        .style("stroke", "blue")
+        .style("stroke-width", "2");
 };
     
 })(); //last line of main.js
