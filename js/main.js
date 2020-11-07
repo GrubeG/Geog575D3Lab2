@@ -64,9 +64,6 @@ function setMap(){
         var regionalCountries = topojson.feature(region, region.objects.RegionalCountries),
             europeCountries = topojson.feature(europe, europe.objects.EUCountries).features;
         
-        console.log(regionalCountries);
-        console.log(europeCountries);
-        
         //add regional countries to map
         var regional = map.append("path")
             .datum(regionalCountries)
@@ -168,7 +165,10 @@ function setChart(csvData, colorScale){
         })
         .text(function(d){
             return d[expressed];
-        });
+        })
+        .on("mouseover", highlight)
+        .on("mouseout", dehighlight)
+        .on("mousemove", moveLabel);
     
     //below Example 2.8...create a text element for the chart title
     var chartTitle = chart.append("text")
@@ -222,6 +222,8 @@ function createDropdown(csvData){
         .append("option")
         .attr("value", function(d){ return d })
         .text(function(d){ return d });
+    
+    setLabel(props)
     
 };
     
@@ -380,7 +382,8 @@ function setEnumerationUnits(europeCountries, map, path, colorScale){
             })
             .on("mouseout", function(d){
             dehighlight(d.properties);
-        });
+            })
+            .on("mousemove", moveLabel);
             
         var desc = EuropeanUnionCountries.append("desc")
         .text('{"stroke": "#000", "stroke-width": "0.5px"}');
@@ -406,6 +409,8 @@ function highlight(props){
     var selected = d3.selectAll("." + props.GeogCode)
         .style("stroke", "cyan")
         .style("stroke-width", "1");
+    
+    setLabel(props)
 };
     
  //function to reset the element style on mouseout
@@ -425,9 +430,58 @@ function dehighlight(props){
 
         var styleObject = JSON.parse(styleText);
 
-        return styleObject[styleName];
+        return styleObject[styleName];  
         
     };
+        
+        var removeLabel = d3.select(".infolabel")
+            .remove();
+    
 };
+    
+//function to create dynamic label
+function setLabel(props){
+    
+    //label content
+    var labelAttribute = "<h1>" + props[expressed] +
+        "</h1><b>" + expressed + "</b>";
+
+    //create info label div
+    var infolabel = d3.select("body")
+        .append("div")
+        .attr("class", "infolabel")
+        .attr("id", props.GeogCode + "_label")
+        .html(labelAttribute);
+
+    var regionName = infolabel.append("div")
+        .attr("class", "labelname")
+        .html(props.GeogCode);
+    
+};
+    
+//function to move info label with mouse
+function moveLabel(){
+//get width of label
+    var labelWidth = d3.select(".infolabel")
+        .node()
+        .getBoundingClientRect()
+        .width;
+
+    //use coordinates of mousemove event to set label coordinates
+    var x1 = d3.event.clientX + 10,
+        y1 = d3.event.clientY - 75,
+        x2 = d3.event.clientX - labelWidth - 10,
+        y2 = d3.event.clientY + 25;
+
+    //horizontal label coordinate, testing for overflow
+    var x = d3.event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1; 
+    //vertical label coordinate, testing for overflow
+    var y = d3.event.clientY < 75 ? y2 : y1; 
+
+    d3.select(".infolabel")
+        .style("left", x + "px")
+        .style("top", y + "px");
+};
+    
     
 })(); //last line of main.js
