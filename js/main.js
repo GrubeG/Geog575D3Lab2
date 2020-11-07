@@ -129,14 +129,15 @@ function setChart(csvData, colorScale){
         .enter()
         .append("rect")
         .sort(function(a, b){
-            return a[expressed]-b[expressed]
+            return b[expressed]-a[expressed]
         })
         .attr("class", function(d){
             return "bar " + d.Code;
         })
         .attr("width", chartInnerWidth / csvData.length - 1)
         .on("mouseover", highlight)
-        .on("mouseout", dehighlight);
+        .on("mouseout", dehighlight)
+        .on("mousemove", moveLabel);
     
     var desc = bars.append("desc")
         .text('{"stroke": "none", "stroke-width": "0px"}');
@@ -147,7 +148,7 @@ function setChart(csvData, colorScale){
         .enter()
         .append("text")
         .sort(function(a, b){
-            return a[expressed]-b[expressed]
+            return b[expressed]-a[expressed]
         })
         .attr("class", function(d){
             return "numbers " + d.Code;
@@ -430,10 +431,10 @@ function dehighlight(props){
 
         var styleObject = JSON.parse(styleText);
 
-        return styleObject[styleName];  
-        
+        return styleObject[styleName]; 
     };
         
+    //below Example 2.4 line 21...remove info label
         var removeLabel = d3.select(".infolabel")
             .remove();
     
