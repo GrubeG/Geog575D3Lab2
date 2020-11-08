@@ -18,7 +18,7 @@ var chartWidth = window.innerWidth * 0.425,
 //create a scale to size bars proportionally to frame and for axis
 var yScale = d3.scaleLinear()
     .range([463, 0])
-    .domain([0, 30]);
+    .domain([0, 100]);
     
 //begin script when window loads
 window.onload = setMap();
@@ -271,7 +271,6 @@ function changeAttribute(attribute, csvData){
         .duration(500);
         
     updateChart(bars, csvData.length, colorScale, numbers);
-    
 };
     
 //function to position, size, and color bars in chart
@@ -375,7 +374,7 @@ function joinData(europeCountries, csvData){
         for (var a=0; a<europeCountries.length; a++){
 
             var geojsonProps = europeCountries[a].properties; //the current region geojson properties
-            var geojsonKey = geojsonProps.GeogCode; //the geojson primary key
+            var geojsonKey = geojsonProps.Code; //the geojson primary key
 
             //where primary keys match, transfer csv data to geojson properties object
             if (geojsonKey == csvKey){
@@ -401,7 +400,7 @@ function setEnumerationUnits(europeCountries, map, path, colorScale){
             .enter()
             .append("path")
             .attr("class", function(d){
-                return "EuropeanUnionCountries " + d.properties.GeogCode;
+                return "EuropeanUnionCountries " + d.properties.Code;
             })
             .attr("d", path)
             .style("fill", function(d){
@@ -436,7 +435,7 @@ function choropleth(props, colorScale){
 //function to highlight enumeration units and bars
 function highlight(props){
     //change stroke
-    var selected = d3.selectAll("." + props.GeogCode)
+    var selected = d3.selectAll("." + props.Code)
         .style("stroke", "cyan")
         .style("stroke-width", "2");
     
@@ -445,7 +444,7 @@ function highlight(props){
     
  //function to reset the element style on mouseout
 function dehighlight(props){
-    var selected = d3.selectAll("." + props.GeogCode)
+    var selected = d3.selectAll("." + props.Code)
         .style("stroke", "black")
         .style("stroke-width", "1");
         
@@ -466,7 +465,7 @@ function setLabel(props){
     var infolabel = d3.select("body")
         .append("div")
         .attr("class", "infolabel")
-        .attr("id", props.GeogCode + "_label")
+        .attr("id", props.Code + "_label")
         .html(labelAttribute);
 
     var regionName = infolabel.append("div")
