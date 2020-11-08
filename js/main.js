@@ -18,7 +18,7 @@ var chartWidth = window.innerWidth * 0.425,
 //create a scale to size bars proportionally to frame and for axis
 var yScale = d3.scaleLinear()
     .range([463, 0])
-    .domain([0, 110]);
+    .domain([0, 30]);
     
 //begin script when window loads
 window.onload = setMap();
@@ -121,7 +121,9 @@ function setChart(csvData, colorScale){
     //create a scale to size bars proportionally to frame and for axis
     var yScale = d3.scaleLinear()
         .range([463, 0])
-        .domain([0, 100]);
+        .domain([0, 30]);
+   
+     console.log(d3.max(csvData, function(d) { return parseFloat(d[expressed]); }))
     
     //set bars for each province
     var bars = chart.selectAll(".bar")
@@ -195,7 +197,7 @@ function setChart(csvData, colorScale){
         .attr("transform", translate);
     
     //set bar positions, heights, and colors
-    updateChart(bars, csvData.length, colorScale);
+    updateChart(bars, csvData.length, colorScale, numbers);
     
 }; //end of setChart()
     
@@ -255,13 +257,25 @@ function changeAttribute(attribute, csvData){
             return i * 20
         })
         .duration(500);
+    
+    //re-sort, resize, and recolor bars
+    var numbers = d3.selectAll(".numbers")
+        //re-sort bars
+        .sort(function(a, b){
+            return b[expressed] - a[expressed];
+        })
+        .transition() //add animation
+        .delay(function(d, i){
+            return i * 20
+        })
+        .duration(500);
         
-    updateChart(bars, csvData.length, colorScale);
+    updateChart(bars, csvData.length, colorScale, numbers);
     
 };
     
 //function to position, size, and color bars in chart
-function updateChart(bars, n, colorScale){
+function updateChart(bars, n, colorScale, numbers){
     //position bars
     bars.attr("x", function(d, i){
             return i * (chartInnerWidth / n) + leftPadding;
@@ -277,6 +291,21 @@ function updateChart(bars, n, colorScale){
         .style("fill", function(d){
             return choropleth(d, colorScale);
         });
+    
+    numbers.attr("x", function(d, i){
+            return i * (chartInnerWidth / n) + 35;
+        })
+        //size/resize bars
+        .attr("height", function(d, i){
+            return 463 - yScale(parseFloat(d[expressed]));
+        })
+        .attr("y", function(d, i){
+            return yScale(parseFloat(d[expressed])) + 20;
+        })
+        .text(function(d){
+            return d[expressed];
+        });
+    
     //at the bottom of updateChart()...add text to chart title
     var chartTitle = d3.select(".chartTitle")
         .text("Number of Variable " + expressed + " in each region");
@@ -409,7 +438,7 @@ function highlight(props){
     //change stroke
     var selected = d3.selectAll("." + props.GeogCode)
         .style("stroke", "cyan")
-        .style("stroke-width", "1");
+        .style("stroke-width", "2");
     
     setLabel(props)
 };
@@ -417,22 +446,8 @@ function highlight(props){
  //function to reset the element style on mouseout
 function dehighlight(props){
     var selected = d3.selectAll("." + props.GeogCode)
-        .style("stroke", function(){
-            return getStyle(this, "stroke")
-        })
-        .style("stroke-width", function(){
-            return getStyle(this, "stroke-width")
-        });
-
-    function getStyle(element, styleName){
-        var styleText = d3.select(element)
-            .select("desc")
-            .text();
-
-        var styleObject = JSON.parse(styleText);
-
-        return styleObject[styleName]; 
-    };
+        .style("stroke", "black")
+        .style("stroke-width", "1");
         
     //below Example 2.4 line 21...remove info label
         var removeLabel = d3.select(".infolabel")
@@ -456,7 +471,7 @@ function setLabel(props){
 
     var regionName = infolabel.append("div")
         .attr("class", "labelname")
-        .html(props.GeogCode);
+        .html(props.Country);
     
 };
     
