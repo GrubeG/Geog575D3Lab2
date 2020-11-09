@@ -305,9 +305,25 @@ function updateChart(bars, n, colorScale, numbers){
             return d[expressed];
         });
     
+    
+    
     //at the bottom of updateChart()...add text to chart title
     var chartTitle = d3.select(".chartTitle")
-        .text(expressed + " Per capita");
+        .text(function(d){
+            if (expressed == "Greenhouse_Gases"){
+              return  "Greenhouse Gasses Produced - Metric Tonnes per capita";
+            } else if (expressed == "Total_Waste"){
+              return  "Total Waste Produced – Metric Tonnes per capita";
+            } else if (expressed == "Total_Energy_Use"){
+              return  "Total Energy Supply – Gigajoules per capita";
+            } else if (expressed == "Non_Renewable_Energy_Use"){
+              return  "Energy From Non-Renewable Sources - Gigajoules per capita";
+            } else if (expressed == "Freshwater_Abstractions"){
+              return  "Gross abstraction Fresh surface and groundwater Cubic metres per capita";
+            } else if (expressed == "Air_Quality"){
+              return "Concentrations of fine particulate matter (PM2.5)";
+            }   
+        });
 };
     
     
