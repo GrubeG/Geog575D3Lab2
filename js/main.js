@@ -2,7 +2,7 @@
 (function(){
 
 //pseudo-global variables
-var attrArray = ["GHG", "Waste", "TotalEner", "NonRenewEner", "WaterAbsAvg", "AirQuality"];
+var attrArray = ["Greenhouse_Gases", "Total_Waste", "Total_Energy_Use", "Non_Renewable_Energy_Use", "Freshwater_Abstractions", "Air_Quality"];
 var expressed = attrArray[0]; //initial attribute
     
 //chart frame dimensions
@@ -121,7 +121,7 @@ function setChart(csvData, colorScale){
     //create a scale to size bars proportionally to frame and for axis
     var yScale = d3.scaleLinear()
         .range([463, 0])
-        .domain([0, 30]);
+        .domain([0, 100]);
    
      console.log(d3.max(csvData, function(d) { return parseFloat(d[expressed]); }))
     
@@ -178,7 +178,7 @@ function setChart(csvData, colorScale){
         .attr("x", 40)
         .attr("y", 40)
         .attr("class", "chartTitle")
-        .text("Number of Variable " + expressed + " in each region");
+        .text("Per Capita " + expressed + " in each country");
     
     //create vertical axis generator
     var yAxis = d3.axisLeft(yScale);
@@ -307,7 +307,7 @@ function updateChart(bars, n, colorScale, numbers){
     
     //at the bottom of updateChart()...add text to chart title
     var chartTitle = d3.select(".chartTitle")
-        .text("Number of Variable " + expressed + " in each region");
+        .text(expressed + " Per capita");
 };
     
     
@@ -363,7 +363,7 @@ function setGraticule(map, path){
 function joinData(europeCountries, csvData){
     
     //variables for data join
-    var attrArray = ["GHG", "Waste", "TotalEner", "NonRenewEner", "WaterAbsAvg", "AirQuality"];
+    var attrArray = ["Greenhouse_Gases", "Total_Waste", "Total_Energy_Use", "Non_Renewable_Energy_Use", "Freshwater_Abstractions", "Air_Quality"];
 
     //loop through csv to assign each set of csv attribute values to geojson region
     for (var i=0; i<csvData.length; i++){
