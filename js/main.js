@@ -216,7 +216,7 @@ function createDropdown(csvData){
     var titleOption = dropdown.append("option")
         .attr("class", "titleOption")
         .attr("disabled", "true")
-        .text("Select Attribute");
+        .text("Select Category");
 
     //add attribute name options
     var attrOptions = dropdown.selectAll("attrOptions")
@@ -452,7 +452,7 @@ function choropleth(props, colorScale){
 function highlight(props){
     //change stroke
     var selected = d3.selectAll("." + props.Code)
-        .style("stroke", "cyan")
+        .style("stroke", "#41fdfe")
         .style("stroke-width", "2");
     
     setLabel(props)
@@ -462,7 +462,7 @@ function highlight(props){
 function dehighlight(props){
     var selected = d3.selectAll("." + props.Code)
         .style("stroke", "black")
-        .style("stroke-width", "1");
+        .style("stroke-width", "0.75");
         
     //below Example 2.4 line 21...remove info label
         var removeLabel = d3.select(".infolabel")
@@ -475,7 +475,7 @@ function setLabel(props){
     
     //label content
     var labelAttribute = "<h1>" + props[expressed] +
-        "</h1><b>" + expressed + "</b>";
+        "</h1>";
 
     //create info label div
     var infolabel = d3.select("body")
