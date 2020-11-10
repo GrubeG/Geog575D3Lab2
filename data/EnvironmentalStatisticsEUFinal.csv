@@ -1,4 +1,4 @@
-ID,Country,Code,Greenhouse_Gases,Total_Waste,Air_Quality,Total_Energy_Use,Non_Renewable_Energy_Use,Freshwater_Abstractions
+ID,Country,Code,Greenhouse_Gases,Total_Waste,Air_Quality,Total_Energy,Non-Renewable_Energy,Freshwater_Extractions
 1,Austria,AUT,9.2,7.4,12.4,161,47.89,432
 2,Belgium,BEL,10.8,5.9,12.9,201,173.8,355.43
 3,Bulgaria,BGR,8.3,18.5,18.8,110,94.48,791.18

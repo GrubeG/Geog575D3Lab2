@@ -2,7 +2,7 @@
 (function(){
 
 //pseudo-global variables
-var attrArray = ["Greenhouse_Gases", "Total_Waste", "Total_Energy_Use", "Non_Renewable_Energy_Use", "Freshwater_Abstractions", "Air_Quality"];
+var attrArray = ["Greenhouse_Gases", "Total_Waste", "Total_Energy", "Non-Renewable_Energy", "Freshwater_Extractions", "Air_Quality"];
 var expressed = attrArray[0]; //initial attribute
     
 //chart frame dimensions
@@ -224,7 +224,7 @@ function createDropdown(csvData){
         .enter()
         .append("option")
         .attr("value", function(d){ return d })
-        .text(function(d){ return d });
+        .text(function(d){ return d.replaceAll("_", " ") });
     
     setLabel(props)
     
@@ -311,17 +311,17 @@ function updateChart(bars, n, colorScale, numbers){
     var chartTitle = d3.select(".chartTitle")
         .text(function(d){
             if (expressed == "Greenhouse_Gases"){
-              return  "Greenhouse Gasses Produced - Metric Tonnes per capita";
+              return  "Greenhouse Gasses Produced - Metric Tons Per Capita";
             } else if (expressed == "Total_Waste"){
-              return  "Total Waste Produced – Metric Tonnes per capita";
-            } else if (expressed == "Total_Energy_Use"){
-              return  "Total Energy Supply – Gigajoules per capita";
-            } else if (expressed == "Non_Renewable_Energy_Use"){
-              return  "Energy From Non-Renewable Sources - Gigajoules per capita";
-            } else if (expressed == "Freshwater_Abstractions"){
-              return  "Gross abstraction Fresh surface and groundwater Cubic metres per capita";
+              return  "Total Waste Produced – Metric Tons Per Capita";
+            } else if (expressed == "Total_Energy"){
+              return  "Total Energy Supply – Gigajoules Per Capita";
+            } else if (expressed == "Non-Renewable_Energy"){
+              return  "Energy From Non-Renewable Sources - Gigajoules Per Capita";
+            } else if (expressed == "Freshwater_Extractions"){
+              return  "Extraction of Fresh Surface and Groundwater - Cubic Meters Per Capita";
             } else if (expressed == "Air_Quality"){
-              return "Concentrations of fine particulate matter (PM2.5)";
+              return "Concentrations of Fine Particulate Matter (PM2.5)";
             }   
         });
 };
@@ -379,7 +379,7 @@ function setGraticule(map, path){
 function joinData(europeCountries, csvData){
     
     //variables for data join
-    var attrArray = ["Greenhouse_Gases", "Total_Waste", "Total_Energy_Use", "Non_Renewable_Energy_Use", "Freshwater_Abstractions", "Air_Quality"];
+    var attrArray = ["Greenhouse_Gases", "Total_Waste", "Total_Energy", "Non-Renewable_Energy", "Freshwater_Extractions", "Air_Quality"];
 
     //loop through csv to assign each set of csv attribute values to geojson region
     for (var i=0; i<csvData.length; i++){
