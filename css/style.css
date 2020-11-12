@@ -55,7 +55,6 @@
 
 .chartBackground {
     fill: rgba(128,248,128,.1);
-    background-image: url("https://unsplash.com/photos/Z3NceSeZqgI");
 }
 
 .chartFrame {
@@ -81,7 +80,7 @@
 
 .dropdown {
     position: absolute;
-    top: 30px;
+    top: 180px;
     left: 40px;
     z-index: 10;
     font-family: sans-serif;
@@ -98,7 +97,7 @@ option {
 
 .infolabel {
     position: absolute;
-    height: 50px;
+    height: 70px;
     min-width: 100px;
     color: lightgreen;
     background-color: #013220;
@@ -106,7 +105,7 @@ option {
     padding: 5px 10px;
 }
 
-.infolabel h1 {
+.infolabel h2 {
     margin: 0 20px 0 0;
     padding: 0;
     display: inline-block;

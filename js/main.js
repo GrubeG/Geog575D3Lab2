@@ -18,7 +18,7 @@ var chartWidth = window.innerWidth * 0.425,
 //create a scale to size bars proportionally to frame and for axis
 var yScale = d3.scaleLinear()
     .range([463, 0])
-    .domain([0, 100]);
+    .domain([0, 300])
     
 //begin script when window loads
 window.onload = setMap();
@@ -31,7 +31,7 @@ function setMap(){
         height = 600;
 
     //create new svg container for the map
-    var map = d3.select("body")
+    var map = d3.select("div.mapContainer")
         .append("svg")
         .attr("class", "map")
         .attr("width", width)
@@ -87,8 +87,6 @@ function setMap(){
         
         changeAttribute(csvData)
         
-        
-        
     };
 }; //end of setMap()
     
@@ -105,7 +103,7 @@ function setChart(csvData, colorScale){
         translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
 
     //create a second svg element to hold the bar chart
-    var chart = d3.select("body")
+    var chart = d3.select("div.mapContainer")
         .append("svg")
         .attr("width", chartWidth)
         .attr("height", chartHeight)
@@ -118,10 +116,8 @@ function setChart(csvData, colorScale){
         .attr("height", chartInnerHeight)
         .attr("transform", translate);
     
-    //create a scale to size bars proportionally to frame and for axis
-    var yScale = d3.scaleLinear()
-        .range([463, 0])
-        .domain([0, 100]);
+    
+
    
      console.log(d3.max(csvData, function(d) { return parseFloat(d[expressed]); }))
     
@@ -164,7 +160,7 @@ function setChart(csvData, colorScale){
             return 463 - yScale(parseFloat(d[expressed]));
         })
         .attr("y", function(d, i){
-            return yScale(parseFloat(d[expressed])) + 20;
+            return yScale(parseFloat(d[expressed])) + 10;
         })
         .text(function(d){
             return d[expressed];
@@ -180,15 +176,6 @@ function setChart(csvData, colorScale){
         .attr("class", "chartTitle")
         .text("Per Capita " + expressed + " in each country");
     
-    //create vertical axis generator
-    var yAxis = d3.axisLeft(yScale);
-
-    //place axis
-    var axis = chart.append("g")
-        .attr("class", "axis")
-        .attr("transform", translate)
-        .call(yAxis);
-
     //create frame for chart border
     var chartFrame = chart.append("rect")
         .attr("class", "chartFrame")
@@ -199,13 +186,22 @@ function setChart(csvData, colorScale){
     //set bar positions, heights, and colors
     updateChart(bars, csvData.length, colorScale, numbers);
     
+    //create vertical axis generator
+    //var yAxis = d3.axisLeft(yScale);
+
+    //place axis
+    //var axis = chart.append("g")
+        //.attr("class", "axis")
+        //.attr("transform", translate)
+        //.call(yAxis);
+    
 }; //end of setChart()
     
     
 //function to create a dropdown menu for attribute selection
 function createDropdown(csvData){
     //add select element
-    var dropdown = d3.select("body")
+    var dropdown = d3.select("div.mapContainer")
         .append("select")
         .attr("class", "dropdown")
         .on("change", function(){
@@ -275,6 +271,21 @@ function changeAttribute(attribute, csvData){
     
 //function to position, size, and color bars in chart
 function updateChart(bars, n, colorScale, numbers){
+    
+    var maxDomain = null;
+        if (expressed == "Greenhouse_Gases") {var maxDomain = 30;}
+            if (expressed == "Total_Waste") {var maxDomain = 28;}
+            if (expressed == "Total_Energy") {var maxDomain = 300;}
+            if (expressed == "Non-Renewable_Energy") {var maxDomain = 300;}
+            if (expressed == "Freshwater_Extractions") {var maxDomain = 1450;}
+            if (expressed == "Air_Quality") {var maxDomain = 30;}
+    
+    var yScale = d3.scaleLinear()
+    .range([463, 0])
+    .domain([0, maxDomain])
+    
+    console.log(maxDomain)
+    
     //position bars
     bars.attr("x", function(d, i){
             return i * (chartInnerWidth / n) + leftPadding;
@@ -305,8 +316,7 @@ function updateChart(bars, n, colorScale, numbers){
             return d[expressed];
         });
     
-    
-    
+      
     //at the bottom of updateChart()...add text to chart title
     var chartTitle = d3.select(".chartTitle")
         .text(function(d){
@@ -474,11 +484,11 @@ function dehighlight(props){
 function setLabel(props){
     
     //label content
-    var labelAttribute = "<h1>" + props[expressed] +
-        "</h1>";
+    var labelAttribute = "<h2>" + props[expressed] +
+        "</h2>";
 
     //create info label div
-    var infolabel = d3.select("body")
+    var infolabel = d3.select("div.mapContainer")
         .append("div")
         .attr("class", "infolabel")
         .attr("id", props.Code + "_label")
