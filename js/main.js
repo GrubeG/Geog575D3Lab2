@@ -7,13 +7,14 @@ var expressed = attrArray[0]; //initial attribute
     
 //chart frame dimensions
 var chartWidth = window.innerWidth * 0.425,
-    chartHeight = 473,
+    chartHeight = 550,
     leftPadding = 25,
     rightPadding = 2,
     topBottomPadding = 5,
     chartInnerWidth = chartWidth - leftPadding - rightPadding,
     chartInnerHeight = chartHeight - topBottomPadding * 2,
     translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
+
     
 //create a scale to size bars proportionally to frame and for axis
 var yScale = d3.scaleLinear()
@@ -28,7 +29,7 @@ function setMap(){
     
     //map frame dimensions
     var width = window.innerWidth * 0.5,
-        height = 600;
+        height = 550;
 
     //create new svg container for the map
     var map = d3.select("div.mapContainer")
@@ -39,10 +40,10 @@ function setMap(){
 
     //create Albers equal area conic projection centered on Europe
     var projection = d3.geoAlbers()
-        .center([-10, 50.78])
+        .center([-10, 49.78])
         .rotate([-20.80, 0, 0])
         .parallels([20.5, 33.5])
-        .scale(1100)
+        .scale(1000)
         .translate([width / 2, height / 2]);
     
      var path = d3.geoPath()
@@ -94,7 +95,7 @@ function setMap(){
 function setChart(csvData, colorScale){
     //chart frame dimensions
     var chartWidth = window.innerWidth * 0.425,
-        chartHeight = 473,
+        chartHeight = 550,
         leftPadding = 25,
         rightPadding = 2,
         topBottomPadding = 5,
@@ -115,11 +116,6 @@ function setChart(csvData, colorScale){
         .attr("width", chartInnerWidth)
         .attr("height", chartInnerHeight)
         .attr("transform", translate);
-    
-    
-
-   
-     console.log(d3.max(csvData, function(d) { return parseFloat(d[expressed]); }))
     
     //set bars for each province
     var bars = chart.selectAll(".bar")
@@ -176,11 +172,18 @@ function setChart(csvData, colorScale){
         .attr("class", "chartTitle")
         .text("Per Capita " + expressed + " in each country");
     
+    //below Example 2.8...create a text element for the chart title
+    var chartLegend = chart.append("text")
+        .attr("x", 40)
+        .attr("y", 485)
+        .attr("class", "chartLegend")
+        .text("EU Country by Value: Lower number is more environmentally friendly. Equal Interval Classification");
+    
     //create frame for chart border
     var chartFrame = chart.append("rect")
         .attr("class", "chartFrame")
         .attr("width", chartInnerWidth)
-        .attr("height", chartInnerHeight)
+        .attr("height", chartInnerHeight - 75)
         .attr("transform", translate);
     
     //set bar positions, heights, and colors
