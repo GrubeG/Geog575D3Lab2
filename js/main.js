@@ -95,7 +95,7 @@ function setMap(){
 function setChart(csvData, colorScale){
     //chart frame dimensions
     var chartWidth = window.innerWidth * 0.425,
-        chartHeight = 550,
+        chartHeight = 545,
         leftPadding = 25,
         rightPadding = 2,
         topBottomPadding = 5,
@@ -123,7 +123,7 @@ function setChart(csvData, colorScale){
         .enter()
         .append("rect")
         .sort(function(a, b){
-            return b[expressed]-a[expressed]
+            return a[expressed]-b[expressed]
         })
         .attr("class", function(d){
             return "bar " + d.Code;
@@ -142,7 +142,7 @@ function setChart(csvData, colorScale){
         .enter()
         .append("text")
         .sort(function(a, b){
-            return b[expressed]-a[expressed]
+            return a[expressed]-b[expressed]
         })
         .attr("class", function(d){
             return "numbers " + d.Code;
@@ -177,13 +177,36 @@ function setChart(csvData, colorScale){
         .attr("x", 40)
         .attr("y", 485)
         .attr("class", "chartLegend")
-        .text("EU Country by Value: Lower number is more environmentally friendly. Equal Interval Classification");
+        .text("EU Country by Value: Lower number is more environmentally friendly. Equal Interval Classification.");
+    
+    //below Example 2.8...create a text element for the chart title
+    var chartLegend2 = chart.append("text")
+        .attr("x", 40)
+        .attr("y", 500)
+        .attr("class", "chartLegend2")
+        .text("Choose variable in the upper left of the map. Hover over country or bar to see selected country and data value information.");
+    
+    //below Example 2.8...create a text element for the chart title
+    var chartLegend3 = chart.append("text")
+        .attr("x", 40)
+        .attr("y", 515)
+        .attr("class", "chartLegend2")
+        .text("Majority of Data from 2015-2018, courtesy EuroStat, United Nations and World Health Organization. See sources at the bottom of page for more details.");
+    
+    //below Example 2.8...create a text element for the chart title
+    var chartLegend4 = chart.append("text")
+        .attr("x", 40)
+        .attr("y", 530)
+        .attr("class", "chartLegend2")
+        .text("United Kingdom included as it was a member during data gathering period, but left the EU in 2020.");
+    
+    
     
     //create frame for chart border
     var chartFrame = chart.append("rect")
         .attr("class", "chartFrame")
         .attr("width", chartInnerWidth)
-        .attr("height", chartInnerHeight - 75)
+        .attr("height", chartInnerHeight)
         .attr("transform", translate);
     
     //set bar positions, heights, and colors
@@ -249,7 +272,7 @@ function changeAttribute(attribute, csvData){
     var bars = d3.selectAll(".bar")
         //re-sort bars
         .sort(function(a, b){
-            return b[expressed] - a[expressed];
+            return a[expressed] - b[expressed];
         })
         .transition() //add animation
         .delay(function(d, i){
@@ -261,7 +284,7 @@ function changeAttribute(attribute, csvData){
     var numbers = d3.selectAll(".numbers")
         //re-sort bars
         .sort(function(a, b){
-            return b[expressed] - a[expressed];
+            return a[expressed] - b[expressed];
         })
         .transition() //add animation
         .delay(function(d, i){
