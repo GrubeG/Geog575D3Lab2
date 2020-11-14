@@ -357,7 +357,7 @@ function updateChart(bars, n, colorScale, numbers){
             } else if (expressed == "Freshwater_Extractions"){
               return  "Extraction of Fresh Surface and Groundwater - Cubic Meters Per Capita";
             } else if (expressed == "Air_Quality"){
-              return "Concentrations of Fine Particulate Matter (PM2.5)";
+              return "Average Concentrations of Fine Particulate Matter (PM2.5)";
             }   
         });
 };
