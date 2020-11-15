@@ -2,7 +2,7 @@
 (function(){
 
 //pseudo-global variables
-var attrArray = ["Greenhouse_Gases", "Total_Waste", "Total_Energy", "Non-Renewable_Energy", "Freshwater_Extractions", "Air_Quality"];
+var attrArray = ["Greenhouse_Gases", "Total_Waste", "Non-Renewable_Energy", "Freshwater_Extractions", "Air_Quality"];
 var expressed = attrArray[0]; //initial attribute
     
 //chart frame dimensions
@@ -191,7 +191,7 @@ function setChart(csvData, colorScale){
         .attr("x", 40)
         .attr("y", 515)
         .attr("class", "chartLegend2")
-        .text("Majority of Data from 2015-2018, courtesy EuroStat, United Nations and World Health Organization. See sources at the bottom of page for more details.");
+        .text("Majority of data from 2015-2018, courtesy EuroStat, United Nations and World Health Organization. See sources at the bottom of page for more details.");
     
     //below Example 2.8...create a text element for the chart title
     var chartLegend4 = chart.append("text")
@@ -301,7 +301,6 @@ function updateChart(bars, n, colorScale, numbers){
     var maxDomain = null;
         if (expressed == "Greenhouse_Gases") {var maxDomain = 30;}
             if (expressed == "Total_Waste") {var maxDomain = 28;}
-            if (expressed == "Total_Energy") {var maxDomain = 300;}
             if (expressed == "Non-Renewable_Energy") {var maxDomain = 300;}
             if (expressed == "Freshwater_Extractions") {var maxDomain = 1450;}
             if (expressed == "Air_Quality") {var maxDomain = 30;}
@@ -347,11 +346,9 @@ function updateChart(bars, n, colorScale, numbers){
     var chartTitle = d3.select(".chartTitle")
         .text(function(d){
             if (expressed == "Greenhouse_Gases"){
-              return  "Greenhouse Gasses Produced - Metric Tons Per Capita";
+              return  "Greenhouse Gases Produced - Metric Tons Per Capita";
             } else if (expressed == "Total_Waste"){
               return  "Total Waste Produced – Metric Tons Per Capita";
-            } else if (expressed == "Total_Energy"){
-              return  "Total Energy Supply – Gigajoules Per Capita";
             } else if (expressed == "Non-Renewable_Energy"){
               return  "Energy From Non-Renewable Sources - Gigajoules Per Capita";
             } else if (expressed == "Freshwater_Extractions"){
@@ -415,7 +412,7 @@ function setGraticule(map, path){
 function joinData(europeCountries, csvData){
     
     //variables for data join
-    var attrArray = ["Greenhouse_Gases", "Total_Waste", "Total_Energy", "Non-Renewable_Energy", "Freshwater_Extractions", "Air_Quality"];
+    var attrArray = ["Greenhouse_Gases", "Total_Waste", "Non-Renewable_Energy", "Freshwater_Extractions", "Air_Quality"];
 
     //loop through csv to assign each set of csv attribute values to geojson region
     for (var i=0; i<csvData.length; i++){
