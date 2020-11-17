@@ -495,6 +495,7 @@ function dehighlight(props){
         .style("stroke", "black")
         .style("stroke-width", "0.75")
         .style("fill-opacity","1")
+        .style("stroke-opacity","1")
         
     //below Example 2.4 line 21...remove info label
         var removeLabel = d3.select(".infolabel")
