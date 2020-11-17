@@ -1,0 +1,29 @@
+Country,Code,GHGRank,WasteRank,AirQuality,Non-RenewableEnergy,FreshwaterExtractions,Total Rank
+Latvia,LVA,5,1,15,3,3,27
+Lithuania,LTU,10,6,10,1,5,32
+Croatia,HRV,3,2,25,2,9,41
+Portugal,PRT,8,3,4,7,21,43
+Malta,MLT,2,19,17,8,2,48
+Denmark,DNK,16,12,7,9,7,51
+Sweden,SWE,1,24,2,18,10,55
+United Kingdom,GBR,12,14,9,14,6,55
+Romania,ROU,4,23,18,4,14,63
+Spain,ESP,11,9,6,13,24,63
+Luxembourg,LUX,28,25,8,6,1,68
+Slovakia,SVK,13,5,26,20,4,68
+Hungary,HUN,6,4,21,21,17,69
+Ireland,IRL,26,11,5,15,15,72
+Austria,AUT,18,21,14,5,19,77
+Cyprus,CYP,23,8,24,11,11,77
+France,FRA,7,18,11,23,18,77
+Italy,ITA,9,10,20,12,27,78
+Czechia,CZE,25,7,19,24,8,83
+Germany,DEU,20,17,12,22,13,84
+Slovenia,SVN,15,13,23,17,20,88
+Greece,GRC,17,15,22,10,26,90
+Poland,POL,22,16,28,19,12,97
+Belgium,BEL,21,20,16,26,16,99
+Finland,FIN,19,28,1,28,23,99
+Netherlands,NLD,24,22,13,25,22,106
+Bulgaria,BGR,14,27,27,16,25,109
+Estonia,EST,27,26,3,27,28,111

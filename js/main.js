@@ -191,7 +191,7 @@ function setChart(csvData, colorScale){
         .attr("x", 40)
         .attr("y", 515)
         .attr("class", "chartLegend2")
-        .text("Majority of data from 2015-2018, courtesy EuroStat, United Nations and World Health Organization. See sources at the bottom of page for more details.");
+        .text("Majority of data from 2015-2018, courtesy EuroStat, United Nations, OECD and World Health Organization. See sources at the bottom of page for more details.");
     
     //below Example 2.8...create a text element for the chart title
     var chartLegend4 = chart.append("text")
@@ -199,8 +199,6 @@ function setChart(csvData, colorScale){
         .attr("y", 530)
         .attr("class", "chartLegend2")
         .text("United Kingdom included as it was a member during data gathering period, but left the EU in 2020.");
-    
-    
     
     //create frame for chart border
     var chartFrame = chart.append("rect")
@@ -309,8 +307,6 @@ function updateChart(bars, n, colorScale, numbers){
     .range([463, 0])
     .domain([0, maxDomain])
     
-    console.log(maxDomain)
-    
     //position bars
     bars.attr("x", function(d, i){
             return i * (chartInnerWidth / n) + leftPadding;
@@ -354,7 +350,7 @@ function updateChart(bars, n, colorScale, numbers){
             } else if (expressed == "Freshwater_Extractions"){
               return  "Extraction of Fresh Surface and Groundwater - Cubic Meters Per Capita";
             } else if (expressed == "Air_Quality"){
-              return "Average Concentrations of Fine Particulate Matter (PM2.5)";
+              return "Fine Particulate Matter (PM2.5) - Micrograms Per Cubic Meter";
             }   
         });
 };
@@ -506,9 +502,16 @@ function dehighlight(props){
 //function to create dynamic label
 function setLabel(props){
     
+    var numberLabel = null;
+        if (expressed == "Greenhouse_Gases") {var numberLabel = "mt PC";}
+            if (expressed == "Total_Waste") {var numberLabel = "mt PC";}
+            if (expressed == "Non-Renewable_Energy") {var numberLabel = "GJ PC";}
+            if (expressed == "Freshwater_Extractions") {var numberLabel = "m³ PC";}
+            if (expressed == "Air_Quality") {var numberLabel = "µg/m³";}
+    
     //label content
     var labelAttribute = "<h2>" + props[expressed] +
-        "</h2>";
+        "</h2><b>" + numberLabel + "</b>";
 
     //create info label div
     var infolabel = d3.select("div.mapContainer")
