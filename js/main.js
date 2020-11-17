@@ -184,7 +184,7 @@ function setChart(csvData, colorScale){
         .attr("x", 40)
         .attr("y", 500)
         .attr("class", "chartLegend2")
-        .text("Choose variable in the upper left of the map. Hover over country or bar to see selected country and data value information.");
+        .text("Choose variable in the upper left of the map. Hover over country or bar to see selected country and data value information. Map Projection is Albers Equal Area.");
     
     //below Example 2.8...create a text element for the chart title
     var chartLegend3 = chart.append("text")
@@ -338,18 +338,18 @@ function updateChart(bars, n, colorScale, numbers){
         });
     
       
-    //at the bottom of updateChart()...add text to chart title
+    //at the bottom of updateChart()...add text to chart footer
     var chartTitle = d3.select(".chartTitle")
         .text(function(d){
             if (expressed == "Greenhouse_Gases"){
               return  "Greenhouse Gases Produced - Metric Tons Per Capita";
-            } else if (expressed == "Total_Waste"){
+            } if (expressed == "Total_Waste"){
               return  "Total Waste Produced – Metric Tons Per Capita";
-            } else if (expressed == "Non-Renewable_Energy"){
+            } if (expressed == "Non-Renewable_Energy"){
               return  "Energy From Non-Renewable Sources - Gigajoules Per Capita";
-            } else if (expressed == "Freshwater_Extractions"){
+            } if (expressed == "Freshwater_Extractions"){
               return  "Extraction of Fresh Surface and Groundwater - Cubic Meters Per Capita";
-            } else if (expressed == "Air_Quality"){
+            } if (expressed == "Air_Quality"){
               return "Fine Particulate Matter (PM2.5) - Micrograms Per Cubic Meter";
             }   
         });
@@ -482,7 +482,9 @@ function highlight(props){
     //change stroke
     var selected = d3.selectAll("." + props.Code)
         .style("stroke", "#41fdfe")
-        .style("stroke-width", "2");
+        .style("stroke-width", "2.5")
+        .style("fill-opacity",".6")
+        .style("stroke-opacity",".8")
     
     setLabel(props)
 };
@@ -491,7 +493,8 @@ function highlight(props){
 function dehighlight(props){
     var selected = d3.selectAll("." + props.Code)
         .style("stroke", "black")
-        .style("stroke-width", "0.75");
+        .style("stroke-width", "0.75")
+        .style("fill-opacity","1")
         
     //below Example 2.4 line 21...remove info label
         var removeLabel = d3.select(".infolabel")
