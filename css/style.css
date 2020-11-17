@@ -136,3 +136,11 @@ option {
     display: inline-block;
     line-height: 1em;
 }
+
+.bg-primary {
+  background: url('https://upload.wikimedia.org/wikipedia/commons/b/b7/Flag_of_Europe.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left;
+  background-color: #003399 !important;
+}

@@ -2,7 +2,7 @@
 (function(){
 
 //pseudo-global variables
-var attrArray = ["Greenhouse_Gases", "Total_Waste", "Non-Renewable_Energy", "Freshwater_Extractions", "Air_Quality"];
+var attrArray = ["Greenhouse_Gases", "Total_Waste", "Air_Quality", "Non-Renewable_Energy", "Freshwater_Extractions"];
 var expressed = attrArray[0]; //initial attribute
     
 //chart frame dimensions
@@ -331,7 +331,7 @@ function updateChart(bars, n, colorScale, numbers){
             return 463 - yScale(parseFloat(d[expressed]));
         })
         .attr("y", function(d, i){
-            return yScale(parseFloat(d[expressed])) + 20;
+            return yScale(parseFloat(d[expressed])) + 15;
         })
         .text(function(d){
             return d[expressed];
@@ -408,7 +408,7 @@ function setGraticule(map, path){
 function joinData(europeCountries, csvData){
     
     //variables for data join
-    var attrArray = ["Greenhouse_Gases", "Total_Waste", "Non-Renewable_Energy", "Freshwater_Extractions", "Air_Quality"];
+    var attrArray = ["Greenhouse_Gases", "Total_Waste", "Air_Quality", "Non-Renewable_Energy", "Freshwater_Extractions"];
 
     //loop through csv to assign each set of csv attribute values to geojson region
     for (var i=0; i<csvData.length; i++){
