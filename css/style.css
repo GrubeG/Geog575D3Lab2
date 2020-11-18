@@ -22,7 +22,7 @@
 }
 
 .map {
-    border: medium solid #999;
+    border: medium solid green;
     margin: 10px 0 0 20px;
 }
 
@@ -77,8 +77,8 @@
 
 .chartFrame {
     fill: none;
-    stroke: #999;
-    stroke-width: 3px;
+    stroke: green;
+    stroke-width: 2.5px;
     shape-rendering: crispEdges;
 }
 
