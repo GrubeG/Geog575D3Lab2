@@ -86,6 +86,7 @@ function setMap(){
         //add dropdown selector
         createDropdown(csvData)
         
+        //add in the change attribute function
         changeAttribute(csvData)
         
     };
@@ -93,6 +94,7 @@ function setMap(){
     
 //function to create coordinated bar chart
 function setChart(csvData, colorScale){
+    
     //chart frame dimensions
     var chartWidth = window.innerWidth * 0.425,
         chartHeight = 545,
@@ -136,7 +138,7 @@ function setChart(csvData, colorScale){
     var desc = bars.append("desc")
         .text('{"stroke": "none", "stroke-width": "0px"}');
     
-        //annotate bars with attribute value text
+    //annotate bars with attribute value text
     var numbers = chart.selectAll(".numbers")
         .data(csvData)
         .enter()
@@ -165,40 +167,40 @@ function setChart(csvData, colorScale){
         .on("mouseout", dehighlight)
         .on("mousemove", moveLabel);
     
-    //below Example 2.8...create a text element for the chart title
+    //create a text element for the chart title
     var chartTitle = chart.append("text")
         .attr("x", 40)
         .attr("y", 40)
         .attr("class", "chartTitle")
         .text("Per Capita " + expressed + " in each country");
     
-    //below Example 2.8...create a text element for the chart title
+    //create a text element for the chart information
     var chartLegend = chart.append("text")
         .attr("x", 40)
         .attr("y", 485)
         .attr("class", "chartLegend")
         .text("EU Country by Value: Lower number is more environmentally friendly. Equal Interval Classification.");
     
-    //below Example 2.8...create a text element for the chart title
+    //below Example 2.8...create a text element for the chart information
     var chartLegend2 = chart.append("text")
         .attr("x", 40)
         .attr("y", 500)
         .attr("class", "chartLegend2")
         .text("Choose variable in the upper left of the map. Hover over country or bar to see selected country and data value information. Map Projection is Albers Equal Area.");
     
-    //below Example 2.8...create a text element for the chart title
+    //below Example 2.8...create a text element for the chart information
     var chartLegend3 = chart.append("text")
         .attr("x", 40)
         .attr("y", 515)
         .attr("class", "chartLegend2")
         .text("Majority of data from 2015-2018, courtesy EuroStat, United Nations, OECD and World Health Organization. See sources at the bottom of page for more details.");
     
-    //below Example 2.8...create a text element for the chart title
+    //below Example 2.8...create a text element for the chart information
     var chartLegend4 = chart.append("text")
         .attr("x", 40)
         .attr("y", 530)
         .attr("class", "chartLegend2")
-        .text("United Kingdom included as it was a member during data gathering period, but left the EU in 2020.");
+        .text("United Kingdom included in analysis as it was a member during data gathering period, but left the EU in 2020.");
     
     //create frame for chart border
     var chartFrame = chart.append("rect")
@@ -209,15 +211,6 @@ function setChart(csvData, colorScale){
     
     //set bar positions, heights, and colors
     updateChart(bars, csvData.length, colorScale, numbers);
-    
-    //create vertical axis generator
-    //var yAxis = d3.axisLeft(yScale);
-
-    //place axis
-    //var axis = chart.append("g")
-        //.attr("class", "axis")
-        //.attr("transform", translate)
-        //.call(yAxis);
     
 }; //end of setChart()
     
@@ -296,6 +289,7 @@ function changeAttribute(attribute, csvData){
 //function to position, size, and color bars in chart
 function updateChart(bars, n, colorScale, numbers){
     
+    //set chart domain based on individual category
     var maxDomain = null;
         if (expressed == "Greenhouse_Gases") {var maxDomain = 30;}
             if (expressed == "Total_Waste") {var maxDomain = 28;}
@@ -338,7 +332,7 @@ function updateChart(bars, n, colorScale, numbers){
         });
     
       
-    //at the bottom of updateChart()...add text to chart footer
+    //add a title to the chart depending on attribute chosen
     var chartTitle = d3.select(".chartTitle")
         .text(function(d){
             if (expressed == "Greenhouse_Gases"){
@@ -506,6 +500,7 @@ function dehighlight(props){
 //function to create dynamic label
 function setLabel(props){
     
+    //add a unit label to the moving label depending on attribute chosen
     var numberLabel = null;
         if (expressed == "Greenhouse_Gases") {var numberLabel = "mt PC";}
             if (expressed == "Total_Waste") {var numberLabel = "mt PC";}
